@@ -1,21 +1,16 @@
 package ie.interactivebrokers.pages.base;
 
+import ie.interactivebrokers.factory.DriverFactory;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BasePage {
-    protected static WebDriver driver;
+public abstract class BasePage {
     protected static final Logger logger = LoggerFactory.getLogger(BasePage.class);
 
-    public void setDriver(WebDriver driver) {
-        BasePage.driver = driver;
-    }
-
     protected WebElement find(By locator) {
-        return driver.findElement(locator);
+        return DriverFactory.getDriver().findElement(locator);
     }
 
     protected void set(By locator, String text) {

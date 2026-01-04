@@ -1,36 +1,25 @@
 package ie.interactivebrokers.base;
 
 import ie.interactivebrokers.config.Config;
-import ie.interactivebrokers.pages.base.BasePage;
+import ie.interactivebrokers.factory.DriverFactory;
 import ie.interactivebrokers.pages.dashboard.DashboardPage;
 import ie.interactivebrokers.pages.home.HomePage;
 import ie.interactivebrokers.pages.home.LoginPage;
-import ie.interactivebrokers.utils.DriverUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.internal.collections.Pair;
 
-import static ie.interactivebrokers.utils.DriverUtils.delay;
+import static ie.interactivebrokers.utils.Utils.delay;
 import static ie.interactivebrokers.utils.FileUtils.saveScreenshot;
 
 public class BaseTest {
-    protected WebDriver driver;
-    protected BasePage basePage;
-    protected HomePage homePage;
-
     @BeforeMethod
     public void setUp() {
         initializeBrowser();
 
-        basePage = new BasePage();
-        basePage.setDriver(driver);
-        DriverUtils.setDriver(driver);
-
-        homePage = new HomePage();
+        HomePage homePage = new HomePage();
         for (int i = 0; i < 2; i++) {
             homePage.dismissCookieModal();
             homePage.dismissNewsModal();
@@ -47,13 +36,7 @@ public class BaseTest {
     }
 
     private void initializeBrowser() {
-        ChromeOptions options = new ChromeOptions();
-        if (!Config.LOCAL) {
-            options.addArguments("--headless");
-        }
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
+        WebDriver driver = DriverFactory.getDriver();
         driver.get(Config.BASE_URL);
     }
 
@@ -61,7 +44,7 @@ public class BaseTest {
         if (Config.LOCAL) {
             delay(3000);
         }
-        driver.quit();
+        DriverFactory.quitDriver();
     }
 
     protected DashboardPage validLogin() {
@@ -73,7 +56,7 @@ public class BaseTest {
     }
 
     private Pair<DashboardPage, LoginPage> login(String username, String password) {
-        LoginPage loginPage = homePage.goToLoginPage();
+        LoginPage loginPage = new HomePage().goToLoginPage();
         loginPage.setUsername(username);
         loginPage.setPassword(password);
         loginPage.togglePaperTradingAccount();

@@ -43,6 +43,7 @@ public class LoginPage extends BasePage {
     }
 
     public DashboardPage goToDashboardPage() {
+        waitUntilInvisible(loadingSpinner, 5);
         return new DashboardPage();
     }
 }

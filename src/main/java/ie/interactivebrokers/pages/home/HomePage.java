@@ -2,6 +2,7 @@ package ie.interactivebrokers.pages.home;
 
 import ie.interactivebrokers.pages.base.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.TimeoutException;
 
 import static ie.interactivebrokers.utils.WaitUtils.*;
@@ -19,7 +20,7 @@ public class HomePage extends BasePage {
             waitUntilVisible(cookieModal, 5);
             click(rejectAllCookiesButton);
             waitUntilInvisible(cookieModal, 5);
-        } catch (TimeoutException e) {
+        } catch (TimeoutException | ElementNotInteractableException e) {
             logger.info("Cookie modal did not trigger for instance {}", this);
         }
     }
@@ -29,7 +30,7 @@ public class HomePage extends BasePage {
             waitUntilVisible(newsModal, 5);
             click(closeNewsModalButton);
             waitUntilInvisible(newsModal, 5);
-        } catch (TimeoutException e) {
+        } catch (TimeoutException | ElementNotInteractableException e) {
             logger.info("News modal did not trigger for instance {}", this);
         }
     }

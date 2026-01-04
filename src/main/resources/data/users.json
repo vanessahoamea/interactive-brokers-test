@@ -2,5 +2,9 @@
   {
     "username": "invalid_user_123",
     "password": "Password.456"
+  },
+  {
+    "username": "AnotherMadeUpUser",
+    "password": "THIS_IS_A_DEMO_2026"
   }
 ]

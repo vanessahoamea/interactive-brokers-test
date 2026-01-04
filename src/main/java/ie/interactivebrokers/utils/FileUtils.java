@@ -1,5 +1,6 @@
 package ie.interactivebrokers.utils;
 
+import ie.interactivebrokers.factory.DriverFactory;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.io.FileHandler;
@@ -8,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class FileUtils extends DriverUtils {
+public class FileUtils extends Utils {
     private static final String SOURCE_FOLDER = "src";
     private static final String DATA_FOLDER = "main/resources/data";
 
@@ -17,7 +18,7 @@ public class FileUtils extends DriverUtils {
     }
 
     public static void saveScreenshot(String testName) {
-        TakesScreenshot screenshot = (TakesScreenshot) driver;
+        TakesScreenshot screenshot = (TakesScreenshot) DriverFactory.getDriver();
         String directoryPath = System.getProperty("user.dir") + "/resources/screenshots/" + java.time.LocalDate.now();
         File source = screenshot.getScreenshotAs(OutputType.FILE);
         File destination = new File(directoryPath + "/" + testName + ".png");

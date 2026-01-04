@@ -1,16 +1,10 @@
 package ie.interactivebrokers.utils;
 
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DriverUtils {
-    protected static WebDriver driver;
-    protected static final Logger logger = LoggerFactory.getLogger(DriverUtils.class);
-
-    public static void setDriver(WebDriver driver) {
-        DriverUtils.driver = driver;
-    }
+public abstract class Utils {
+    protected static final Logger logger = LoggerFactory.getLogger(Utils.class);
 
     public static void delay(int milliseconds) {
         try {

@@ -16,7 +16,7 @@ import static ie.interactivebrokers.utils.FileUtils.getJsonFile;
 public class JsonDataProvider {
     private static final Logger logger = LoggerFactory.getLogger(JsonDataProvider.class);
 
-    @DataProvider(name = "json-users")
+    @DataProvider(name = "json-users", parallel = true)
     public static Object[][] getUsers() {
         ObjectMapper mapper = new ObjectMapper();
         File jsonFile = getJsonFile("users.json");
