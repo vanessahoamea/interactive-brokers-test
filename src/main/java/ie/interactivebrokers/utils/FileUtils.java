@@ -1,0 +1,35 @@
+package ie.interactivebrokers.utils;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.io.FileHandler;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+
+public class FileUtils extends DriverUtils {
+    private static final String SOURCE_FOLDER = "src";
+    private static final String DATA_FOLDER = "main/resources/data";
+
+    public static File getJsonFile(String fileName) {
+        return Paths.get(SOURCE_FOLDER, DATA_FOLDER).resolve(fileName).toFile();
+    }
+
+    public static void saveScreenshot(String testName) {
+        TakesScreenshot screenshot = (TakesScreenshot) driver;
+        String directoryPath = System.getProperty("user.dir") + "/resources/screenshots/" + java.time.LocalDate.now();
+        File source = screenshot.getScreenshotAs(OutputType.FILE);
+        File destination = new File(directoryPath + "/" + testName + ".png");
+
+        try {
+            if (destination.getParentFile().mkdirs()) {
+                FileHandler.copy(source, destination);
+            } else {
+                logger.error("Failed to create screenshot directory for file: {}", destination.getPath());
+            }
+        } catch (IOException e) {
+            logger.error("Failed to take screenshot", e);
+        }
+    }
+}
