@@ -2,6 +2,7 @@ package ie.interactivebrokers.base;
 
 import ie.interactivebrokers.config.Config;
 import ie.interactivebrokers.pages.base.BasePage;
+import ie.interactivebrokers.pages.dashboard.DashboardPage;
 import ie.interactivebrokers.pages.home.HomePage;
 import ie.interactivebrokers.pages.home.LoginPage;
 import ie.interactivebrokers.utils.DriverUtils;
@@ -11,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.internal.collections.Pair;
 
 import static ie.interactivebrokers.utils.DriverUtils.delay;
 import static ie.interactivebrokers.utils.FileUtils.saveScreenshot;
@@ -28,7 +30,11 @@ public class BaseTest {
         basePage.setDriver(driver);
         DriverUtils.setDriver(driver);
 
-        homePage = new HomePage().dismissCookieModal();
+        homePage = new HomePage();
+        for (int i = 0; i < 2; i++) {
+            homePage.dismissCookieModal();
+            homePage.dismissNewsModal();
+        }
     }
 
     @AfterMethod
@@ -47,6 +53,7 @@ public class BaseTest {
         }
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
         driver.get(Config.BASE_URL);
     }
 
@@ -57,11 +64,21 @@ public class BaseTest {
         driver.quit();
     }
 
-    protected void login(String username, String password) {
+    protected DashboardPage validLogin() {
+        return login(Config.USERNAME, Config.PASSWORD).first();
+    }
+
+    protected LoginPage invalidLogin(String username, String password) {
+        return login(username, password).second();
+    }
+
+    private Pair<DashboardPage, LoginPage> login(String username, String password) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.setUsername(username);
         loginPage.setPassword(password);
         loginPage.togglePaperTradingAccount();
         loginPage.clickLoginButton();
+        DashboardPage dashboardPage = loginPage.goToDashboardPage();
+        return new Pair<>(dashboardPage, loginPage);
     }
 }
