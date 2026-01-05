@@ -1,6 +1,7 @@
 package ie.interactivebrokers.providers;
 
 import ie.interactivebrokers.models.User;
+import ie.interactivebrokers.models.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -33,6 +34,28 @@ public class JsonDataProvider {
             User user = users.get(i);
             data[i][0] = user.getUsername();
             data[i][1] = user.getPassword();
+        }
+
+        return data;
+    }
+
+    @DataProvider(name = "json-widgets", parallel = true)
+    public static Object[][] getWidgets() {
+        ObjectMapper mapper = new ObjectMapper();
+        File jsonFile = getJsonFile("widgets.json");
+
+        List<Widget> widgets = new ArrayList<>();
+        try {
+            widgets = mapper.readValue(jsonFile, mapper.getTypeFactory().constructCollectionType(List.class, Widget.class));
+        } catch (JacksonException e) {
+            logger.error("Failed to fetch data from widgets.json file", e);
+        }
+
+        Object[][] data = new Object[widgets.size()][2];
+        for (int i = 0; i < widgets.size(); i++) {
+            Widget widget = widgets.get(i);
+            data[i][0] = widget.getActive();
+            data[i][1] = widget.getInactive();
         }
 
         return data;

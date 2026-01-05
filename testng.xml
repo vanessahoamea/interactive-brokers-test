@@ -6,4 +6,9 @@
             <class name="ie.interactivebrokers.home.LoginTest"/>
         </classes>
     </test>
+    <test name="Dashboard Test">
+        <classes>
+            <class name="ie.interactivebrokers.dashboard.DashboardTest"/>
+        </classes>
+    </test>
 </suite>

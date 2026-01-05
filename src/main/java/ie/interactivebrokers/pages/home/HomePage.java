@@ -17,9 +17,9 @@ public class HomePage extends BasePage {
 
     public void dismissCookieModal() {
         try {
-            waitUntilVisible(cookieModal, 5);
+            waitUntilVisible(cookieModal, 2);
             click(rejectAllCookiesButton);
-            waitUntilInvisible(cookieModal, 5);
+            waitUntilInvisible(cookieModal, 2);
         } catch (TimeoutException | ElementNotInteractableException e) {
             logger.info("Cookie modal did not trigger for instance {}", this);
         }
@@ -27,9 +27,9 @@ public class HomePage extends BasePage {
 
     public void dismissNewsModal() {
         try {
-            waitUntilVisible(newsModal, 5);
+            waitUntilVisible(newsModal, 2);
             click(closeNewsModalButton);
-            waitUntilInvisible(newsModal, 5);
+            waitUntilInvisible(newsModal, 2);
         } catch (TimeoutException | ElementNotInteractableException e) {
             logger.info("News modal did not trigger for instance {}", this);
         }

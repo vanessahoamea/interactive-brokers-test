@@ -1,0 +1,14 @@
+[
+  {
+    "active": ["Statements", "Support", "Message Center", "News"],
+    "inactive": ["Orders & Trades", "PortfolioAnalyst", "Events"]
+  },
+  {
+    "active": ["Orders & Trades", "Statements", "PortfolioAnalyst", "Support", "Message Center", "Events", "News"],
+    "inactive": []
+  },
+  {
+    "active": [],
+    "inactive": ["Orders & Trades", "Statements", "PortfolioAnalyst", "Support", "Message Center", "Events", "News"]
+  }
+]
