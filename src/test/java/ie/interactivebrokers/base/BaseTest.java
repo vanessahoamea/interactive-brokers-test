@@ -14,7 +14,7 @@ import org.testng.internal.collections.Pair;
 import static ie.interactivebrokers.utils.Utils.delay;
 import static ie.interactivebrokers.utils.FileUtils.saveScreenshot;
 
-public class BaseTest {
+public abstract class BaseTest {
     @BeforeMethod
     public void setUp() {
         initializeBrowser();

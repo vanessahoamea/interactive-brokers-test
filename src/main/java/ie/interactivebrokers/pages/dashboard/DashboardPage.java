@@ -18,6 +18,8 @@ public class DashboardPage extends BasePage {
     private final By addWidgetButton = By.xpath("//div[contains(@class, 'tws-shortcuts__col')] //button[1]");
     private final By widgetButtons = By.cssSelector(".tws-shortcuts__col > button");
     private final By widgetsModalCloseButton = By.cssSelector("._dlg-modal a");
+    private final By researchButton = By.xpath("//nav //div //button[text()='Research']");
+    private final By newsAndResearchButton = By.xpath("//button[text()='News & Research']");
 
     public String getPaperMoneyAlertMessage() {
         waitUntilVisible(paperMoneyAlert, 5);
@@ -61,5 +63,14 @@ public class DashboardPage extends BasePage {
         }
 
         return widgetNames;
+    }
+
+    public NewsPage goToNewsPage() {
+        waitUntilClickable(researchButton, 5);
+        click(researchButton);
+        waitUntilClickable(newsAndResearchButton, 5);
+        delay(1000);
+        click(newsAndResearchButton);
+        return new NewsPage();
     }
 }

@@ -9,6 +9,7 @@
     <test name="Dashboard Test">
         <classes>
             <class name="ie.interactivebrokers.dashboard.DashboardTest"/>
+            <class name="ie.interactivebrokers.dashboard.NewsTest"/>
         </classes>
     </test>
 </suite>
