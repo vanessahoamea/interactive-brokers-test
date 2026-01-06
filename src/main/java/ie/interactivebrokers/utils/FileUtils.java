@@ -24,11 +24,13 @@ public class FileUtils extends Utils {
         File destination = new File(directoryPath + "/" + testName + ".png");
 
         try {
-            if (destination.getParentFile().mkdirs()) {
-                FileHandler.copy(source, destination);
-            } else {
-                logger.error("Failed to create screenshot directory for file: {}", destination.getPath());
+            File directory = destination.getParentFile();
+            if (!directory.exists() && !directory.mkdirs()) {
+                logger.error("Failed to create screenshot directory: {}", directory.getPath());
+                return;
             }
+
+            FileHandler.copy(source, destination);
         } catch (IOException e) {
             logger.error("Failed to take screenshot", e);
         }
