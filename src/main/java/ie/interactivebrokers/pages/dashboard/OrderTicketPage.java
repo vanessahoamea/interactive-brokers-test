@@ -3,6 +3,7 @@ package ie.interactivebrokers.pages.dashboard;
 import ie.interactivebrokers.pages.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 
 import static ie.interactivebrokers.utils.ActionUtils.clickWithPause;
@@ -83,7 +84,7 @@ public class OrderTicketPage extends BasePage {
             waitUntilVisible(orderModal, 2);
             click(closeOrderModalButton);
             waitUntilInvisible(orderModal, 2);
-        } catch (TimeoutException | ElementNotInteractableException e) {
+        } catch (TimeoutException | ElementNotInteractableException | NoSuchElementException e) {
             logger.info("Order modal did not trigger for instance {}", this);
         }
     }

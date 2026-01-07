@@ -1,12 +1,14 @@
 package ie.interactivebrokers.pages.dashboard;
 
 import ie.interactivebrokers.pages.base.BasePage;
+import ie.interactivebrokers.pages.quote.QuotePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static ie.interactivebrokers.utils.ActionUtils.clickWithPause;
 import static ie.interactivebrokers.utils.GetUtils.getText;
 import static ie.interactivebrokers.utils.JavaScriptUtils.scrollToElementJS;
 import static ie.interactivebrokers.utils.Utils.delay;
@@ -22,6 +24,7 @@ public class DashboardPage extends BasePage {
     private final By newsAndResearchButton = By.xpath("//button[text()='News & Research']");
     private final By tradeButton = By.xpath("//nav //div //button[text()='Trade']");
     private final By convertCurrencyButton = By.xpath("//button[text()='Convert Currency']");
+    private final By searchBar = By.cssSelector(".sl-search-bar input");
 
     public String getPaperMoneyAlertMessage() {
         waitUntilVisible(paperMoneyAlert, 5);
@@ -84,5 +87,17 @@ public class DashboardPage extends BasePage {
         delay(1000);
         click(convertCurrencyButton);
         return new OrderTicketPage();
+    }
+
+    public QuotePage searchSymbolAndGoToQuotePage(String symbol, String nameAndExchange) {
+        waitUntilVisible(searchBar, 5);
+        clickWithPause(searchBar, 1500);
+        set(searchBar, symbol);
+
+        By stockOption = By.xpath("//div[@tabindex=0] //span[text()='" + nameAndExchange + "']");
+        waitUntilVisible(stockOption, 15);
+        click(stockOption);
+
+        return new QuotePage();
     }
 }

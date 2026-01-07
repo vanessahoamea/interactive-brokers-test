@@ -1,0 +1,17 @@
+[
+  {
+    "symbol": "VWCG",
+    "name_and_exchange": "VANG FTSE EUR EURA - IBIS2",
+    "quantity": 100
+  },
+  {
+    "symbol": "TSLA",
+    "name_and_exchange": "TESLA INC - NASDAQ",
+    "quantity": 0
+  },
+  {
+    "symbol": "AAPL",
+    "name_and_exchange": "APPLE INC - NASDAQ",
+    "quantity": 25
+  }
+]

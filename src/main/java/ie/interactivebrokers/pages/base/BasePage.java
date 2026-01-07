@@ -2,6 +2,7 @@ package ie.interactivebrokers.pages.base;
 
 import ie.interactivebrokers.factory.DriverFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,10 @@ public abstract class BasePage {
 
     protected void set(By locator, String text) {
         find(locator).clear();
+        find(locator).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        find(locator).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.BACK_SPACE));
+        find(locator).sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.DELETE));
+        find(locator).sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.BACK_SPACE));
         find(locator).sendKeys(text);
     }
 

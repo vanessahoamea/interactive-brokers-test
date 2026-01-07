@@ -1,6 +1,7 @@
 package ie.interactivebrokers.providers;
 
 import ie.interactivebrokers.models.Currency;
+import ie.interactivebrokers.models.Quote;
 import ie.interactivebrokers.models.User;
 import ie.interactivebrokers.models.Widget;
 import org.slf4j.Logger;
@@ -93,6 +94,33 @@ public class JsonDataProvider {
         return data;
     }
 
+    @DataProvider(name = "json-quotes", parallel = true)
+    public static Object[][] getQuotes(Method method) {
+        ObjectMapper mapper = new ObjectMapper();
+        File jsonFile = getJsonFile("quotes.json");
+
+        List<Quote> quotes = new ArrayList<>();
+        try {
+            quotes = mapper.readValue(jsonFile, mapper.getTypeFactory().constructCollectionType(List.class, Quote.class));
+        } catch (JacksonException e) {
+            logger.error("Failed to fetch data from quotes.json file", e);
+        }
+
+        // filtering quotes based on the calling method
+        Predicate<Quote> predicate = getQuotePredicate(method);
+        quotes = quotes.stream().filter(predicate).collect(Collectors.toList());
+
+        Object[][] data = new Object[quotes.size()][3];
+        for (int i = 0; i < quotes.size(); i++) {
+            Quote quote = quotes.get(i);
+            data[i][0] = quote.getSymbol();
+            data[i][1] = quote.getNameAndExchange();
+            data[i][2] = quote.getQuantity();
+        }
+
+        return data;
+    }
+
     private static Predicate<Currency> getCurrencyPredicate(Method method) {
         Predicate<Currency> predicate;
 
@@ -106,6 +134,18 @@ public class JsonDataProvider {
                     (currency.getSourceAmount() != null && currency.getSourceAmount() > 0)
                     || (currency.getTargetAmount() != null && currency.getTargetAmount() > 0)
             );
+        }
+
+        return predicate;
+    }
+
+    private static Predicate<Quote> getQuotePredicate(Method method) {
+        Predicate<Quote> predicate;
+
+        if (method.getName().toLowerCase().contains("sell")) {
+            predicate = (quote) -> quote.getQuantity() <= 0;
+        } else {
+            predicate = (quote) -> quote.getQuantity() > 0;
         }
 
         return predicate;
