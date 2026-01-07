@@ -10,11 +10,11 @@ import java.util.Set;
 import static ie.interactivebrokers.utils.GetUtils.getText;
 import static ie.interactivebrokers.utils.JavaScriptUtils.scrollToElementJS;
 import static ie.interactivebrokers.utils.Utils.delay;
-import static ie.interactivebrokers.utils.WaitUtils.waitUntilClickable;
-import static ie.interactivebrokers.utils.WaitUtils.waitUntilVisible;
+import static ie.interactivebrokers.utils.WaitUtils.*;
 
 public class DashboardPage extends BasePage {
     private final By paperMoneyAlert = By.cssSelector("div[role='alert'] p");
+    private final By loadingSkeleton = By.className("tws-skeleton");
     private final By addWidgetButton = By.xpath("//div[contains(@class, 'tws-shortcuts__col')] //button[1]");
     private final By widgetButtons = By.cssSelector(".tws-shortcuts__col > button");
     private final By widgetsModalCloseButton = By.cssSelector("._dlg-modal a");
@@ -29,6 +29,7 @@ public class DashboardPage extends BasePage {
     }
 
     public void clickAddWidgetButton() {
+        waitUntilInvisible(loadingSkeleton, 15);
         delay(3000); // prevents data initialization issues inside the modal
         waitUntilClickable(addWidgetButton, 5);
         scrollToElementJS(addWidgetButton);
