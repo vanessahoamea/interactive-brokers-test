@@ -13,4 +13,11 @@ public class JavaScriptUtils {
         String jsScript = "arguments[0].scrollIntoView()";
         ((JavascriptExecutor) driver).executeScript(jsScript, element);
     }
+
+    public static void highlightElementJS(By locator) {
+        WebDriver driver = DriverFactory.getDriver();
+        WebElement element = driver.findElement(locator);
+        String jsScript = "arguments[0].style.border='3px solid red'";
+        ((JavascriptExecutor) driver).executeScript(jsScript, element);
+    }
 }

@@ -1,0 +1,17 @@
+[
+  {
+    "source_currency": "EUR",
+    "target_currency": "USD",
+    "source_amount": 300.0
+  },
+  {
+    "source_currency": "EUR",
+    "target_currency": "GBP",
+    "target_amount": 0.0
+  },
+  {
+    "source_currency": "EUR",
+    "target_currency": "GBP",
+    "target_amount": 249.99
+  }
+]

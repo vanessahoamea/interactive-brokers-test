@@ -20,6 +20,8 @@ public class DashboardPage extends BasePage {
     private final By widgetsModalCloseButton = By.cssSelector("._dlg-modal a");
     private final By researchButton = By.xpath("//nav //div //button[text()='Research']");
     private final By newsAndResearchButton = By.xpath("//button[text()='News & Research']");
+    private final By tradeButton = By.xpath("//nav //div //button[text()='Trade']");
+    private final By convertCurrencyButton = By.xpath("//button[text()='Convert Currency']");
 
     public String getPaperMoneyAlertMessage() {
         waitUntilVisible(paperMoneyAlert, 5);
@@ -72,5 +74,14 @@ public class DashboardPage extends BasePage {
         delay(1000);
         click(newsAndResearchButton);
         return new NewsPage();
+    }
+
+    public OrderTicketPage goToOrderTicketPage() {
+        waitUntilClickable(tradeButton, 5);
+        click(tradeButton);
+        waitUntilClickable(convertCurrencyButton, 5);
+        delay(1000);
+        click(convertCurrencyButton);
+        return new OrderTicketPage();
     }
 }

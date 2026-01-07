@@ -1,5 +1,6 @@
 package ie.interactivebrokers.providers;
 
+import ie.interactivebrokers.models.Currency;
 import ie.interactivebrokers.models.User;
 import ie.interactivebrokers.models.Widget;
 import org.slf4j.Logger;
@@ -9,8 +10,11 @@ import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static ie.interactivebrokers.utils.FileUtils.getJsonFile;
 
@@ -59,5 +63,51 @@ public class JsonDataProvider {
         }
 
         return data;
+    }
+
+    @DataProvider(name = "json-currencies", parallel = true)
+    public static Object[][] getCurrencies(Method method) {
+        ObjectMapper mapper = new ObjectMapper();
+        File jsonFile = getJsonFile("currencies.json");
+
+        List<Currency> currencies = new ArrayList<>();
+        try {
+            currencies = mapper.readValue(jsonFile, mapper.getTypeFactory().constructCollectionType(List.class, Currency.class));
+        } catch (JacksonException e) {
+            logger.error("Failed to fetch data from currencies.json file", e);
+        }
+
+        // filtering currencies based on the calling method
+        Predicate<Currency> predicate = getCurrencyPredicate(method);
+        currencies = currencies.stream().filter(predicate).collect(Collectors.toList());
+
+        Object[][] data = new Object[currencies.size()][4];
+        for (int i = 0; i < currencies.size(); i++) {
+            Currency currency = currencies.get(i);
+            data[i][0] = currency.getSourceCurrency();
+            data[i][1] = currency.getTargetCurrency();
+            data[i][2] = currency.getSourceAmount();
+            data[i][3] = currency.getTargetAmount();
+        }
+
+        return data;
+    }
+
+    private static Predicate<Currency> getCurrencyPredicate(Method method) {
+        Predicate<Currency> predicate;
+
+        if (method.getName().toLowerCase().contains("invalid")) {
+            predicate = (currency) -> (
+                    (currency.getSourceAmount() != null && currency.getSourceAmount() <= 0)
+                    || (currency.getTargetAmount() != null && currency.getTargetAmount() <= 0)
+            );
+        } else {
+            predicate = (currency) -> (
+                    (currency.getSourceAmount() != null && currency.getSourceAmount() > 0)
+                    || (currency.getTargetAmount() != null && currency.getTargetAmount() > 0)
+            );
+        }
+
+        return predicate;
     }
 }
