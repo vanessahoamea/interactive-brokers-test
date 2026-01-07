@@ -5,6 +5,7 @@ import ie.interactivebrokers.pages.dashboard.DashboardPage;
 import ie.interactivebrokers.pages.dashboard.OrderTicketPage;
 import ie.interactivebrokers.providers.JsonDataProvider;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 public class OrderTicketTest extends BaseTest {
@@ -12,6 +13,7 @@ public class OrderTicketTest extends BaseTest {
     public void testCurrencyConversionWithInvalidData(String sourceCurrency, String targetCurrency, Double sourceAmount, Double targetAmount) {
         DashboardPage dashboardPage = validLogin();
         OrderTicketPage orderTicketPage = dashboardPage.goToOrderTicketPage();
+        skipTestIfCurrencyConversionIsNotPossible(orderTicketPage);
         orderTicketPage.selectSourceCurrency(sourceCurrency);
         orderTicketPage.selectTargetCurrency(targetCurrency);
 
@@ -39,6 +41,7 @@ public class OrderTicketTest extends BaseTest {
     public void testCurrencyConversionWithValidData(String sourceCurrency, String targetCurrency, Double sourceAmount, Double targetAmount) {
         DashboardPage dashboardPage = validLogin();
         OrderTicketPage orderTicketPage = dashboardPage.goToOrderTicketPage();
+        skipTestIfCurrencyConversionIsNotPossible(orderTicketPage);
         orderTicketPage.selectSourceCurrency(sourceCurrency);
         orderTicketPage.selectTargetCurrency(targetCurrency);
 
@@ -67,5 +70,11 @@ public class OrderTicketTest extends BaseTest {
                 orderTicketPage.isOrderSuccessful(),
                 "The order was not successful"
         );
+    }
+
+    private void skipTestIfCurrencyConversionIsNotPossible(OrderTicketPage orderTicketPage) {
+        if (!orderTicketPage.isCurrencyConversionPossible()) {
+            throw new SkipException("Skipping test because conversion requires at least one positive cash balance.");
+        }
     }
 }

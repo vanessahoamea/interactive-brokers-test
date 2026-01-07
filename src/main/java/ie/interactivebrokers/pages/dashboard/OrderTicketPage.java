@@ -23,15 +23,25 @@ public class OrderTicketPage extends BasePage {
     private final By closeOrderModalButton = By.cssSelector("._dlg-modal[aria-hidden=false] button");
     private final By orderConfirmation = By.cssSelector("div[aria-label='Order Submitted Successfully']");
 
+    public boolean isCurrencyConversionPossible() {
+        try {
+            waitUntilVisible(fromCurrencyDropdown, 5);
+            waitUntilVisible(toCurrencyDropdown, 5);
+            return find(fromCurrencyDropdown).isDisplayed() && find(toCurrencyDropdown).isDisplayed();
+        } catch (TimeoutException | NoSuchElementException e) {
+            return false;
+        }
+    }
+
     public void selectSourceCurrency(String currency) {
-        waitUntilVisible(fromCurrencyDropdown, 5);
+        waitUntilClickable(fromCurrencyDropdown, 5);
         scrollToElementJS(fromCurrencyDropdown);
         clickWithPause(fromCurrencyDropdown, 1500);
         clickCurrencyOption(currency);
     }
 
     public void selectTargetCurrency(String currency) {
-        waitUntilVisible(toCurrencyDropdown, 5);
+        waitUntilClickable(toCurrencyDropdown, 5);
         scrollToElementJS(toCurrencyDropdown);
         clickWithPause(toCurrencyDropdown, 1500);
         clickCurrencyOption(currency);
@@ -90,12 +100,12 @@ public class OrderTicketPage extends BasePage {
     }
 
     public boolean isOrderSuccessful() {
-        return !findAll(orderConfirmation).isEmpty();
+        return find(orderConfirmation).isDisplayed();
     }
 
     private void clickCurrencyOption(String currency) {
         By currencyOption = By.cssSelector("li[aria-selected][data-value='" + currency + "']");
-        waitUntilVisible(currencyOption, 15);
+        waitUntilClickable(currencyOption, 15);
         scrollToElementJS(currencyOption);
         click(currencyOption);
     }
