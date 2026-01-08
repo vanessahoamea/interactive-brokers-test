@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite thread-count="4" parallel="methods" name="Suite">
+<suite thread-count="1" data-provider-thread-count="1" parallel="methods" name="Suite">
     <test name="Login Test">
         <classes>
             <class name="ie.interactivebrokers.home.LoginTest"/>
@@ -11,6 +11,11 @@
             <class name="ie.interactivebrokers.dashboard.DashboardTest"/>
             <class name="ie.interactivebrokers.dashboard.NewsTest"/>
             <class name="ie.interactivebrokers.dashboard.OrderTicketTest"/>
+        </classes>
+    </test>
+    <test name="Quote Test">
+        <classes>
+            <class name="ie.interactivebrokers.quote.QuoteTest"/>
         </classes>
     </test>
 </suite>

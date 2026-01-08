@@ -33,7 +33,7 @@ public class DashboardPage extends BasePage {
 
     public void clickAddWidgetButton() {
         waitUntilInvisible(loadingSkeleton, 15);
-        delay(3000); // prevents data initialization issues inside the modal
+        delay(5000); // prevents data initialization issues inside the modal
         waitUntilClickable(addWidgetButton, 5);
         scrollToElementJS(addWidgetButton);
         click(addWidgetButton);
@@ -59,7 +59,7 @@ public class DashboardPage extends BasePage {
     }
 
     public Set<String> getActiveWidgets() {
-        delay(3000); // allows the dashboard to properly re-render the data after closing the modal
+        delay(5000); // allows the dashboard to properly re-render the data after closing the modal
         Set<String> widgetNames = new HashSet<>();
 
         for (WebElement element : findAll(widgetButtons)) {
@@ -90,12 +90,13 @@ public class DashboardPage extends BasePage {
     }
 
     public QuotePage searchSymbolAndGoToQuotePage(String symbol, String nameAndExchange) {
-        waitUntilVisible(searchBar, 5);
+        waitUntilClickable(searchBar, 5);
+        delay(1500);
         clickWithPause(searchBar, 1500);
         set(searchBar, symbol);
 
         By stockOption = By.xpath("//div[@tabindex=0] //span[text()='" + nameAndExchange + "']");
-        waitUntilVisible(stockOption, 15);
+        waitUntilClickable(stockOption, 15);
         click(stockOption);
 
         return new QuotePage();

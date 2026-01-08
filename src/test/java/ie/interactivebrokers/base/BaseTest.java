@@ -17,6 +17,7 @@ import static ie.interactivebrokers.utils.FileUtils.saveScreenshot;
 public abstract class BaseTest {
     @BeforeMethod
     public void setUp() {
+        delay(3000); // simulating a small delay between tests
         initializeBrowser();
 
         HomePage homePage = new HomePage();

@@ -4,6 +4,7 @@ import ie.interactivebrokers.pages.base.BasePage;
 import ie.interactivebrokers.pages.dashboard.DashboardPage;
 import org.openqa.selenium.By;
 
+import static ie.interactivebrokers.utils.ActionUtils.clickWithPause;
 import static ie.interactivebrokers.utils.GetUtils.getText;
 import static ie.interactivebrokers.utils.WaitUtils.waitUntilInvisible;
 import static ie.interactivebrokers.utils.WaitUtils.waitUntilVisible;
@@ -29,21 +30,21 @@ public class LoginPage extends BasePage {
     }
 
     public void clickLoginButton() {
-        click(loginButton);
+        clickWithPause(loginButton, 1000);
     }
 
     public boolean isErrorMessageVisible() {
-        waitUntilInvisible(loadingSpinner, 5);
+        waitUntilInvisible(loadingSpinner, 10);
         return find(loginError).isDisplayed();
     }
 
     public String getErrorMessage() {
-        waitUntilVisible(loginError, 5);
+        waitUntilVisible(loginError, 10);
         return getText(loginError);
     }
 
     public DashboardPage goToDashboardPage() {
-        waitUntilInvisible(loadingSpinner, 5);
+        waitUntilInvisible(loadingSpinner, 10);
         return new DashboardPage();
     }
 }

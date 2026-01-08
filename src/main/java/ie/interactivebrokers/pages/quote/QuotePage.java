@@ -47,11 +47,11 @@ public class QuotePage extends BasePage {
     }
 
     public void selectOrderType(String orderType) {
-        waitUntilVisible(orderTypeDropdown, 5);
+        waitUntilClickable(orderTypeDropdown, 5);
         clickWithPause(orderTypeDropdown, 1500);
 
         By marketOption = By.cssSelector("li[aria-selected][data-value='" + orderType + "']");
-        waitUntilVisible(marketOption, 5);
+        waitUntilClickable(marketOption, 5);
         scrollToElementJS(marketOption);
         click(marketOption);
     }
@@ -84,8 +84,9 @@ public class QuotePage extends BasePage {
     }
 
     public boolean isOrderSuccessful() {
-        waitUntilInvisible(orderSubmissionMessage, 5);
-        return !findAll(orderConfirmationMessage).isEmpty();
+        waitUntilInvisible(orderSubmissionMessage, 15);
+        delay(5000);
+        return find(orderConfirmationMessage).isDisplayed();
     }
 
     public String getOrderStatusMessage() {
