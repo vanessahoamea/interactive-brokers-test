@@ -28,7 +28,7 @@ public class NewsPage extends BasePage {
 
     public void openRandomNewsArticle() {
         waitUntilInvisible(loadingSkeleton, 15);
-        delay(5000); // ensures the news articles load properly before trying to access them
+        delay(10000); // ensures the news articles load properly before trying to access them
         List<WebElement> articles = findAll(newsArticles);
         int articleCount = articles.size();
         int randomIndex = ThreadLocalRandom.current().nextInt(articleCount) % articleCount;

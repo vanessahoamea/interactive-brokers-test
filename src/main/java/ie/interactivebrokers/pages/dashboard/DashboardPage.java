@@ -33,7 +33,7 @@ public class DashboardPage extends BasePage {
 
     public void clickAddWidgetButton() {
         waitUntilInvisible(loadingSkeleton, 15);
-        delay(5000); // prevents data initialization issues inside the modal
+        delay(10000); // prevents data initialization issues inside the modal
         waitUntilClickable(addWidgetButton, 5);
         scrollToElementJS(addWidgetButton);
         click(addWidgetButton);
