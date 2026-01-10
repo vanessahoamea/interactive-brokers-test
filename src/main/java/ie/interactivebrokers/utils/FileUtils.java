@@ -1,11 +1,13 @@
 package ie.interactivebrokers.utils;
 
 import ie.interactivebrokers.factory.DriverFactory;
+import io.qameta.allure.Allure;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.io.FileHandler;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -20,8 +22,9 @@ public class FileUtils extends Utils {
     public static void saveScreenshot(String testName) {
         TakesScreenshot screenshot = (TakesScreenshot) DriverFactory.getDriver();
         String directoryPath = System.getProperty("user.dir") + "/resources/screenshots/" + java.time.LocalDate.now();
+        String fileName = directoryPath + "/" + testName + ".png";
         File source = screenshot.getScreenshotAs(OutputType.FILE);
-        File destination = new File(directoryPath + "/" + testName + ".png");
+        File destination = new File(fileName);
 
         try {
             File directory = destination.getParentFile();
@@ -31,6 +34,7 @@ public class FileUtils extends Utils {
             }
 
             FileHandler.copy(source, destination);
+            Allure.attachment(fileName, new FileInputStream(source));
         } catch (IOException e) {
             logger.error("Failed to take screenshot", e);
         }

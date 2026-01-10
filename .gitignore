@@ -42,5 +42,6 @@ build/
 /.env
 /trcli-config.yaml
 
-### Screenshots ###
+### Resources ###
 /resources/screenshots/
+/resources/allure-report/

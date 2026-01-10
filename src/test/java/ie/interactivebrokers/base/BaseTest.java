@@ -12,7 +12,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.internal.collections.Pair;
 
 import static ie.interactivebrokers.utils.Utils.delay;
-import static ie.interactivebrokers.utils.FileUtils.saveScreenshot;
 
 public abstract class BaseTest {
     @BeforeMethod
@@ -29,10 +28,6 @@ public abstract class BaseTest {
 
     @AfterMethod
     public void tearDown(ITestResult testResult) {
-        if (testResult.getStatus() == ITestResult.FAILURE) {
-            saveScreenshot(testResult.getName());
-        }
-
         closeBrowser();
     }
 

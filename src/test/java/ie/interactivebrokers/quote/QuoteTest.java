@@ -4,11 +4,21 @@ import ie.interactivebrokers.base.BaseTest;
 import ie.interactivebrokers.pages.dashboard.DashboardPage;
 import ie.interactivebrokers.pages.quote.QuotePage;
 import ie.interactivebrokers.providers.JsonDataProvider;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Severity;
+import io.qameta.allure.Story;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import static io.qameta.allure.SeverityLevel.CRITICAL;
 
 public class QuoteTest extends BaseTest {
     @Test(dataProvider = "json-quotes", dataProviderClass = JsonDataProvider.class)
+    @Severity(CRITICAL)
+    @Epic("Quote Page")
+    @Story("Selling an invalid amount of shares")
+    @Parameters({"Symbol", "Name and exchange", "Quantity"})
     public void testSellingWithInvalidData(String symbol, String nameAndExchange, Integer quantity) {
         DashboardPage dashboardPage = validLogin();
         QuotePage quotePage = dashboardPage.searchSymbolAndGoToQuotePage(symbol, nameAndExchange);
@@ -24,6 +34,10 @@ public class QuoteTest extends BaseTest {
     }
 
     @Test(dataProvider = "json-quotes", dataProviderClass = JsonDataProvider.class)
+    @Severity(CRITICAL)
+    @Epic("Quote Page")
+    @Story("Buying a valid amount of shares")
+    @Parameters({"Symbol", "Name and exchange", "Quantity"})
     public void testBuyingWithValidData(String symbol, String nameAndExchange, Integer quantity) {
         DashboardPage dashboardPage = validLogin();
         QuotePage quotePage = dashboardPage.searchSymbolAndGoToQuotePage(symbol, nameAndExchange);

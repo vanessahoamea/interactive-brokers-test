@@ -4,12 +4,24 @@ import ie.interactivebrokers.base.BaseTest;
 import ie.interactivebrokers.pages.dashboard.DashboardPage;
 import ie.interactivebrokers.pages.dashboard.OrderTicketPage;
 import ie.interactivebrokers.providers.JsonDataProvider;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Flaky;
+import io.qameta.allure.Severity;
+import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.SkipException;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import static io.qameta.allure.SeverityLevel.NORMAL;
 
 public class OrderTicketTest extends BaseTest {
     @Test(dataProvider = "json-currencies", dataProviderClass = JsonDataProvider.class)
+    @Severity(NORMAL)
+    @Epic("Dashboard Page")
+    @Story("Currency conversion with invalid amount")
+    @Parameters({"Source currency", "Target currency", "Source amount", "Target amount"})
+    @Flaky
     public void testCurrencyConversionWithInvalidData(String sourceCurrency, String targetCurrency, Double sourceAmount, Double targetAmount) {
         DashboardPage dashboardPage = validLogin();
         OrderTicketPage orderTicketPage = dashboardPage.goToOrderTicketPage();
@@ -38,6 +50,11 @@ public class OrderTicketTest extends BaseTest {
     }
 
     @Test(dataProvider = "json-currencies", dataProviderClass = JsonDataProvider.class)
+    @Severity(NORMAL)
+    @Epic("Dashboard Page")
+    @Story("Currency conversion with valid amount")
+    @Parameters({"Source currency", "Target currency", "Source amount", "Target amount"})
+    @Flaky
     public void testCurrencyConversionWithValidData(String sourceCurrency, String targetCurrency, Double sourceAmount, Double targetAmount) {
         DashboardPage dashboardPage = validLogin();
         OrderTicketPage orderTicketPage = dashboardPage.goToOrderTicketPage();
