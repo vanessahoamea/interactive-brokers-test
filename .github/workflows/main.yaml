@@ -1,0 +1,83 @@
+name: UI Tests with TestRail Integration and GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - '.idea/**'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # Install dependencies
+      - name: Set up JDK 22
+        uses: actions/setup-java@v5
+        with:
+          java-version: '22'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.12.4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.7.0
+
+      - name: Install trcli
+        run: pip install trcli
+
+      - name: Install Allure
+        run: npm install -g allure
+
+      # Run test suite
+      - name: Execute tests
+        run: |
+          mvn clean test \
+            -DBASE_URL="${{ secrets.BASE_URL }}" \
+            -DUSERNAME="${{ secrets.USERNAME }}" \
+            -DPASSWORD="${{ secrets.PASSWORD }}" \
+            -DLOCAL="${{ secrets.LOCAL }}" \
+            -Dmaven.test.failure.ignore=true
+
+      # Add new test run to TestRail project
+      - name: Send test results to TestRail
+        run: |
+          trcli -y \
+          --host "${{ secrets.TR_HOST }}" \
+          --project "${{ secrets.TR_PROJECT }}" \
+          --username "${{ secrets.TR_USERNAME }}" \
+          --password "${{ secrets.TR_PASSWORD }}" \
+          parse_junit \
+          --title "TestNG Automated Test Run" \
+          --file "./target/surefire-reports/TEST-TestSuite.xml"
+
+      # Handle Allure report generation
+      - name: Copy environment file to allure-results folder
+        run: cp ./src/main/resources/environments/staging.properties ./target/allure-results/environment.properties
+
+      - name: Generate Allure report
+        run: allure generate -o ./resources/allure-report
+
+      - name: Deploy report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./resources/allure-report
+          destination_dir: reports
