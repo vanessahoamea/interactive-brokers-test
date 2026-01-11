@@ -11,15 +11,27 @@ import static ie.interactivebrokers.utils.WaitUtils.*;
 public class HomePage extends BasePage {
     private final By loginButton = By.id("nav-log-in");
     private final By portalLoginLink = By.className("dropdown-portal");
+    private final By regionModal = By.id("region-modal");
+    private final By stayOnCurrentWebsiteButton = By.id("btnRegionCurrent");
     private final By cookieModal = By.id("cookie-modal");
-    private final By rejectAllCookiesButton = By.id("gdpr-reject-all");
+    private final By acceptAllCookiesButton = By.id("btn_accept_cookies");
     private final By newsModal = By.id("modalNewsAtIBKR");
     private final By closeNewsModalButton = By.id("newsibkrform-cancel");
+
+    public void dismissRegionModal() {
+        try {
+            waitUntilVisible(regionModal, 5);
+            click(stayOnCurrentWebsiteButton);
+            waitUntilInvisible(regionModal, 5);
+        } catch (TimeoutException | ElementNotInteractableException | NoSuchElementException e) {
+            logger.info("Region modal did not trigger for instance {}", this);
+        }
+    }
 
     public void dismissCookieModal() {
         try {
             waitUntilVisible(cookieModal, 2);
-            click(rejectAllCookiesButton);
+            click(acceptAllCookiesButton);
             waitUntilInvisible(cookieModal, 2);
         } catch (TimeoutException | ElementNotInteractableException | NoSuchElementException e) {
             logger.info("Cookie modal did not trigger for instance {}", this);

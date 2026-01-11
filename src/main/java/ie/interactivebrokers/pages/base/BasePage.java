@@ -22,10 +22,13 @@ public abstract class BasePage {
 
     protected void set(By locator, String text) {
         find(locator).clear();
-        find(locator).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
-        find(locator).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.BACK_SPACE));
-        find(locator).sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.DELETE));
-        find(locator).sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.BACK_SPACE));
+        if (System.getProperty("os.name").equals("Mac OS X")) {
+            find(locator).sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.DELETE));
+            find(locator).sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.BACK_SPACE));
+        } else {
+            find(locator).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+            find(locator).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.BACK_SPACE));
+        }
         find(locator).sendKeys(text);
     }
 

@@ -1,6 +1,7 @@
 package ie.interactivebrokers.factory;
 
 import ie.interactivebrokers.config.Config;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -21,8 +22,14 @@ public class DriverFactory {
             options.addArguments("--headless");
         }
         WebDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
+
+        if (Config.LOCAL) {
+            driver.manage().window().maximize();
+        } else {
+            driver.manage().window().setSize(new Dimension(1600, 700));
+        }
         driver.manage().deleteAllCookies();
+
         return driver;
     }
 

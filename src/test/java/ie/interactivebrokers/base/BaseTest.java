@@ -20,6 +20,7 @@ public abstract class BaseTest {
         initializeBrowser();
 
         HomePage homePage = new HomePage();
+        homePage.dismissRegionModal();
         for (int i = 0; i < 2; i++) {
             homePage.dismissCookieModal();
             homePage.dismissNewsModal();
