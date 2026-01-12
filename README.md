@@ -12,6 +12,7 @@ BASE_URL=https://www.interactivebrokers.ie
 USERNAME=<your_ibkr_username>
 PASSWORD=<your_ibkr_password>
 LOCAL=true
+BROWSER=<chrome/firefox/edge>
 ```
 
 After setting up the environment, start the test run using the command:
