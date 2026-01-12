@@ -10,6 +10,7 @@ public class Config {
     public static final String USERNAME;
     public static final String PASSWORD;
     public static final Boolean LOCAL;
+    public static final String BROWSER;
 
     static {
         env = Dotenv.configure().directory(".").ignoreIfMissing().load();
@@ -17,6 +18,7 @@ public class Config {
         USERNAME = get("USERNAME");
         PASSWORD = get("PASSWORD");
         LOCAL = Boolean.valueOf(get("LOCAL"));
+        BROWSER = get("BROWSER");
     }
 
     private static String get(String key) {

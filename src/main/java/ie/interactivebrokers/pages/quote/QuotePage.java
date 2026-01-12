@@ -50,10 +50,10 @@ public class QuotePage extends BasePage {
         waitUntilClickable(orderTypeDropdown, 5);
         clickWithPause(orderTypeDropdown, 1500);
 
-        By marketOption = By.cssSelector("li[aria-selected][data-value='" + orderType + "']");
-        waitUntilClickable(marketOption, 5);
-        scrollToElementJS(marketOption);
-        click(marketOption);
+        By customOption = By.cssSelector("li[aria-selected][data-value='" + orderType + "']");
+        waitUntilClickable(customOption, 5);
+        scrollToElementJS(customOption);
+        click(customOption);
     }
 
     public void clickBuyOrderButton() {
